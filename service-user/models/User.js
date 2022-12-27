@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     {
         id: {
             type: DataTypes.INTEGER, 
-            autoIncrement: truE,
-            primaryKey: truE,
+            autoIncrement: true,
+            primaryKey: true,
             allowNull: false
         },
         name: {
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         email: {
             type: DataTypes.STRING,
-            allowNull: falsE,
+            allowNull: false,
             unique: true
         },
         password: {
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true
            },
-           ceratedAt: {
+           createdAt: {
             field: 'created_at',
             type: DataTypes.DATE,
             allowNull: false

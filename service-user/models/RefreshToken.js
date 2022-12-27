@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER, 
             allowNull: false
         },
-        ceratedAt: {
+        createdAt: {
             field: 'created_at',
             type: DataTypes.DATE,
             allowNull: false

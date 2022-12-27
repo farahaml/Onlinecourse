@@ -4,7 +4,7 @@
 //library bcrypt
 const bcrypt = require('bcrypt');
 //memanggil model User
-const { User } = require('../../../models/User');
+const { User } = require('../../../models');
 //validator data
 const Validator = require('fastest-validator');
 //mendeklarasi validator
