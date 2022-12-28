@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
         });
     }
 
-    //mencari apakah email sudah ada di table users atau belum
+    //mencari apakah email
     const user = await User.findOne({
         where: { email: req.body.email }
     });
@@ -37,7 +37,30 @@ module.exports = async (req, res) => {
         //409 berarti data sudah ada dan tidak boleh digunakan lagi
         return res.status(409).json({
             status: 'error',
-            message: 'email already exists'
+            message: 'email already exist'
         });
     }
+
+    //apabila email belum terdaftar
+    const password = await bcrypt.hash(req.body.password, 10);
+
+    //untuk insert ke database
+    const data = {
+        password,
+        name: req.body.name,
+        email: req.body.email,
+        profession: req.body.profession,
+        role: 'student'
+    };
+    
+    //membuat data
+    const createdUser = await User.create(data);
+
+    //penyelesaian
+    return res.json({
+        status: 'success',
+        data: {
+            id: createdUser.id
+        }
+    })
 }
