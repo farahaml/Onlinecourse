@@ -67,7 +67,7 @@ module.exports = async(req, res) => {
 
     //respon sukses ketika tidak ada error
     return res.json({
-        status: 'succes',
+        status: 'success',
         data: {
             id:user.id,
             name,
