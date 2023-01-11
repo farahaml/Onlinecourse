@@ -23,6 +23,6 @@ module.exports = async (req, res) => {
         }
 
         const { status, data } = error.response;
-        return res.status(status).json(data);
+        return res.status(status).json({data});
     }
 }
