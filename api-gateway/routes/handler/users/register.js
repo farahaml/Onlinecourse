@@ -7,12 +7,12 @@ const {
     URL_SERVICE_USER
 } = process.env;
 
-//variabel untuk memanggil adpter
+//varibael untuk memanggil adpter
 const api = apiAdapter(URL_SERVICE_USER);
 
 module.exports = async (req, res) => {
     try {
-      const user = await api.post('./users/register', req.body);
+      const user = await api.post('/users/register', req.body);
       //reponse if success
       return res.json(user.data);  
     } catch (error) {

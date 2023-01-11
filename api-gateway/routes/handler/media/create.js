@@ -7,7 +7,7 @@ const {
     URL_SERVICE_MEDIA
 } = process.env;
 
-//varibael untuk memanggil adpter
+//varibael untuk memanggil adapter
 const api = apiAdapter(URL_SERVICE_MEDIA);
 
 module.exports = async (req, res) => {
