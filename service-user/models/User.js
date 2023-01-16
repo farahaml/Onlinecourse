@@ -29,20 +29,20 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: 'student'
            },
-           avatar: {
+        avatar: {
             type: DataTypes.STRING,
             allowNull: true
            },
-           profession: {
+        profession: {
             type: DataTypes.STRING,
             allowNull: true
            },
-           createdAt: {
+        createdAt: {
             field: 'created_at',
             type: DataTypes.DATE,
             allowNull: false
             },
-           updatedAt: {
+        updatedAt: {
             field: 'updated_at',
             type: DataTypes.DATE,
             allowNull: false

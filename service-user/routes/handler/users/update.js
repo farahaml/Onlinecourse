@@ -46,7 +46,7 @@ module.exports = async(req, res) => {
             return res.status(409).json({
                 status: 'error',
                 message: 'email already exist'
-            })
+            });
         }
     }
 

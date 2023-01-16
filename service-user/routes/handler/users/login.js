@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     const schema = {
         email: 'email|empty:false',
         password: 'string|min:6'
-    }
+    };
 
     //validasi data email dan password yang dimasukkan
     const validate = v.validate(req.body, schema);
@@ -24,16 +24,20 @@ module.exports = async (req, res) => {
     const user = await User.findOne({
         where: { email: req.body.email }
     });
+
+    //jika email tiak ada
     if(!user) {
         return res.status(404).json({
             status: 'error',
             message: 'user not found'
-        })
+        });
     }
 
     //jika email ada, password akan dicek benar atau tidaknya
-    //compare digunakan untuk membandingkan string dan string yang sudah berbentuk hash
+    //compare digunakan untuk membandingkan string dengan string yang sudah berbentuk hash
     const isValidPassword = await bcrypt.compare(req.body.password, user.password);
+    
+    //jika password tidak valid
     if(!isValidPassword) {
         return res.status(404).json({
             status: 'error',
@@ -42,7 +46,7 @@ module.exports = async (req, res) => {
     }
 
     res.json({
-        status: 'succes',
+        status: 'success',
         data: {
             id: user.id,
             name: user.name,

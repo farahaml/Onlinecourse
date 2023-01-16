@@ -1,5 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const RefreshToken = sequelize.define('RefreshToken', {
+        //skema dari model
         id: {
             type: DataTypes.INTEGER, 
             autoIncrement: true,
@@ -15,13 +16,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         createdAt: {
-            field: 'created_at',
             type: DataTypes.DATE,
+            field: 'created_at',
             allowNull: false
             },
-           updatedAt: {
-            field: 'updated_at',
+        updatedAt: {
             type: DataTypes.DATE,
+            field: 'updated_at',
             allowNull: false
             }
     },
@@ -29,5 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'refresh_tokens',
         timestamps: true
     });
+    
     return RefreshToken;
 }

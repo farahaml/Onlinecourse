@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const userHandler = require('./handler/users');
+const usersHandler = require('./handler/users');
 
-router.post('/register', userHandler.register);
-router.post('/login', userHandler.login);
-router.post('/logout', userHandler.logout);
-router.put('/:id', userHandler.update);
-router.get('/:id', userHandler.getUser);
-router.get('/', userHandler.getUsers);
+router.post('/register', usersHandler.register);
+router.post('/login', usersHandler.login);
+router.post('/logout', usersHandler.logout);
+router.put('/:id', usersHandler.update);
+router.get('/:id', usersHandler.getUser);
+router.get('/', usersHandler.getUsers);
 
 module.exports = router;

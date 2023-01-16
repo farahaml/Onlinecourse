@@ -3,7 +3,7 @@
 
 //library bcrypt
 const bcrypt = require('bcrypt');
-//memanggil model User
+//memanggil models User
 const { User } = require('../../../models');
 //validator data
 const Validator = require('fastest-validator');
@@ -11,6 +11,7 @@ const Validator = require('fastest-validator');
 const v = new Validator();
 
 module.exports = async (req, res) => {
+    //skema validasi
     const schema = {
         name: 'string|empty:false',
         email: 'email|empty:false',
@@ -27,7 +28,7 @@ module.exports = async (req, res) => {
         });
     }
 
-    //mencari apakah email
+    //mencari apakah email ada di database
     const user = await User.findOne({
         where: { email: req.body.email }
     });
@@ -44,7 +45,7 @@ module.exports = async (req, res) => {
     //apabila email belum terdaftar
     const password = await bcrypt.hash(req.body.password, 10);
 
-    //untuk insert ke database
+    //variabel untuk di-insert ke database
     const data = {
         password,
         name: req.body.name,
@@ -62,5 +63,5 @@ module.exports = async (req, res) => {
         data: {
             id: createdUser.id
         }
-    })
+    });
 }
