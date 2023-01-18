@@ -35,6 +35,7 @@ module.exports = async (req, res) => {
     return res.json({
         status: 'success',
         data: {
+            user:  data,
             token,
             refresh_token: refreshToken
         }
