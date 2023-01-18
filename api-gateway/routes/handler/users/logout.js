@@ -1,4 +1,4 @@
-/*upload data*/
+/*logout di semua device*/
 
 const apiAdapter = require('../../apiAdapter');
 
@@ -13,9 +13,9 @@ const api = apiAdapter(URL_SERVICE_USER);
 module.exports = async (req, res) => {
     try {
         const id = req.user.data.id;
-        const user = await api.get(`/users/${id}`);
+        const user = await api.post(`/users/logout`, { user_id: id });
       //reponse if success
-      return res.json(user.data);  
+        return res.json(user.data);  
     } catch (error) {
 
         //when service-media off
