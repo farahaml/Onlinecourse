@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const usersHandler = require('./handler/users');
 
-router.post('/register', usersHandler.register);
-router.post('/login', usersHandler.login);
+const refreshTokensHandler = require('./handler/refresh-tokens');
+
+router.post('/', refreshTokensHandler.refreshToken);
 
 module.exports = router;
