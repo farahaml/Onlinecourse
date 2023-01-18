@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
             return res.status(403).json({ message: err.message}); 
         }
 
-        req.userId = decoded;
+        req.user = decoded;
         return next();
     });
 }
