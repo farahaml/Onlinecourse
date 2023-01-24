@@ -17,7 +17,7 @@ class CreateMentors extends Migration
             $table->id();
             $table->string('name');
             $table->string('profile');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('profession');
             $table->timestamps();
         });
