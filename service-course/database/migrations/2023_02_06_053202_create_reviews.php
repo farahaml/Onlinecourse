@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateImageCourses extends Migration
+class CreateReviews extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateImageCourses extends Migration
      */
     public function up()
     {
-        Schema::create('image_courses', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
-            $table->string('image');
+            $table->integer('rating')->default(1);
+            $table->longText('note')->nullable();
+            $table->unique(['user_id', 'course_id']);
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreateImageCourses extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('image_courses');
+        Schema::dropIfExists('reviews');
     }
 }
