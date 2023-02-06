@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLessons extends Migration
+class CreateChapters extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateLessons extends Migration
      */
     public function up()
     {
-        Schema::create('lessons', function (Blueprint $table) {
+        Schema::create('chapters', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('video');
-            $table->foreignId('chapter_id')->constrained('chapters')->onDelete('cascade');
+            //foreign key untuk menghubungkan ke table course
+            //jika courses yang berhubungan dengan chapter ini dihapus maka chapter yang berhubungan akan dihapus juga
+            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
+            
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateLessons extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lessons');
+        Schema::dropIfExists('chapters');
     }
 }

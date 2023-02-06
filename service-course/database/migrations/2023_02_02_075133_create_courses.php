@@ -15,7 +15,7 @@ class CreateCourses extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
             $table->boolean('certificate');
             $table->string('thumbnail')->nullable();
             $table->enum('type', ['free', 'premium']);
@@ -23,6 +23,8 @@ class CreateCourses extends Migration
             $table->integer('price')->default(0)->nullable();
             $table->enum('level', ['all-level', 'beginner', 'intermediate', 'advanced']);
             $table->longText('description')->nullable();
+            //foreignKey table mentors
+            //onDelete = apabila data mentor dihapus maka kursus yang berhubungan dengan mentor tersebut akan dihapus  
             $table->foreignId('mentor_id')->constrained('mentors')->onDelete('cascade');
             $table->timestamps();
         });
