@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 class MentorController extends Controller
 {
 
-    //mendapatkan semua list mentors
+    //get list mentors
     public function index ()
     {
         $mentors = Mentor::all();
@@ -18,6 +18,28 @@ class MentorController extends Controller
             'data' => $mentors
         ]);
     }
+
+    //get mentor's data
+    public function show ($id)
+    {
+        $mentor = Mentor::find($id);
+        //jika mentor tidak ditemukan
+        if (!$mentor) {
+            //error response
+            return response()->json([
+                'status' => 'error',
+                'message' => 'mentor not found'
+            ], 404);
+        }
+
+        //success response
+        return response()->json([
+            'status' => 'succes',
+            'data' => $mentor
+        ]);
+    }
+
+    //create mentors
     public function create(Request $request)
     {
         //skema validasi untuk setiap data yang masuk
