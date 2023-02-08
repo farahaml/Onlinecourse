@@ -106,7 +106,7 @@ class MentorController extends Controller
             ], 404);
         }
 
-        //data akan diupdate apabilla id ada di database
+        //data akan diupdate
         $mentor->fill($data);
         $mentor->save();
 
