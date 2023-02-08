@@ -117,4 +117,28 @@ class MentorController extends Controller
         ]);
 
     }
+
+    //menghapus data mentor
+    public function destroy($id) {
+        //mencari data mentor
+        $mentor = Mentor::find($id);
+
+        //jika data mentor tidak ada di database
+        if (!$mentor) {
+            //respon error
+            return response()->json([
+                'status' => 'error',
+                'message' => 'mentor not found'
+            ], 404);
+        }
+
+        //jika data mentor ada di database
+        $mentor->delete();
+
+        //respon sukses
+        return response()->json([
+            'status' => 'success',
+            'message' => 'mentor deleted'
+        ]);
+    }
 }
