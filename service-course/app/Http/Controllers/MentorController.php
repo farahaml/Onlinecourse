@@ -118,7 +118,7 @@ class MentorController extends Controller
         $mentor->fill($data);
         $mentor->save();
 
-        //success response
+        //successupdated mentor data response
         return response()->json([
             'status' => 'success',
             'data' => $mentor
@@ -126,9 +126,9 @@ class MentorController extends Controller
 
     }
 
-    //menghapus data mentor
+    //delete mentor data by id
     public function destroy($id) {
-        //mencari data mentor
+        //fin mentor id
         $mentor = Mentor::find($id);
 
         //jika data mentor tidak ada di database
