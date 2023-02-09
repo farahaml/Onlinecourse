@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-//memanggil model course
+//course model
 use App\Course;
-//memanggil model mentor
+//mentor model
 use App\Mentor;
 use Illuminate\Http\Request;
 //validator
@@ -12,20 +12,34 @@ use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
 {
-    //get course list
+    //get courses list
     public function index (Request $request)
     {
-        $course = Course::query();
+        $courses = Course::query();
 
+        //filter 
+        $q = $request->query('q');
+        $status = $request->query('status');
+
+        $courses->when($q, function($query) use ($q) {
+            return $query->whereRaw("name LIKE '%".strtolower($q)."%'");
+        });
+
+        $courses->when($status, function($query) use ($status) {
+            return $query->where('status', '=', $status);
+        });
+
+        //success response
         return response()->json([
             'status' => 'success',
-            'data' => $course->paginate(10)
+            'data' => $courses->paginate(10)
         ]);
     }
 
     //create course
     public function create (Request $request)
     {
+        //validate schema for input data
         $rules = [
             'name' => 'required|string',
             'certificate' => 'required|boolean',
@@ -38,45 +52,47 @@ class CourseController extends Controller
             'mentor_id' => 'required|integer'
         ];
 
-        //meminta semua data dari body
+        //request alldata from body
         $data = $request->all();
 
-        //validasi data
+        //validating data
         $validator = Validator::make($data, $rules);
 
-        //jika validasi error
+        //if data invalid
         if ($validator->fails()) {
-            //respon error
+            //error response
             return response()->json([
                 'status' => 'error',
                 'message' => $validator->errors()
             ], 400);
         }
 
-        //memeriksa apakah id mentor terdaftar di database
+        //find mentor id from database
         $mentorId = $request->input('mentor_id');
         $mentor = Mentor::find($mentorId);
 
-        //jika id mentor tidak terdaftar di database
+        //if mentor id invalid
         if (!$mentor) {
-            //respon error
+            //error response
             return response()->json([
                 'status' => 'error',
                 'message' => 'mentor not found'
             ], 404);
         }
 
-        //menyimpan data course yang dibuat
+        //creating data course in database
         $course = Course::create($data);
 
-        //respon sukses
+        //success response
         return response()->json([
             'status' => 'succes',
-            'data' => $course
+            'data' => $courses
         ]);
     }
 
+    //update course with id
     public function update (Request $request, $id) {
+        //validate schema for input data
         $rules = [
             'name' => 'string',
             'certificate' => 'boolean',
@@ -89,38 +105,41 @@ class CourseController extends Controller
             'mentor_id' => 'integer'
         ];
 
-        //meminta semua data dari body
+        //request all data from body
         $data = $request->all();
 
-        //validasi data
+        //validadating data
         $validator = Validator::make($data, $rules);
 
+        //if data invalid
         if ($validator->fails()) {
-            //respon error
+            //error response
             return response()->json([
                 'status' => 'error',
                 'message' => $validator->errors()
             ], 400);
         }
 
-        //mencari id course
+        //find course id in database
         $course = Course::find($id);
-        //jika id course tidak ada
+
+        //if there's no course id
         if (!$course) {
-            //respon error
+            //error response
             return response()->json([
                 'status' => 'error',
                 'message' => 'course not found'
             ], 404);
         }
 
-        //memeriksa id mentor ketika diupdate
+        //if there's mentor update
         $mentorId = $request->input('mentor_id');
         if ($mentorId) {
-            //mencari id mentor
+            //find mentor id in database
             $mentor = Mentor::find($mentorId);
+            //if mentor id invalid
             if (!$mentor) {
-                //respon error
+                //error response
                 return response()->json([
                     'status' => 'error',
                     'message' => 'mentor not found'
@@ -128,11 +147,11 @@ class CourseController extends Controller
             }
         }
 
-        //data akan diupdate
+        //updating data course
         $course->fill($data);
         $course->save();
        
-        //respon update sukses
+        //success response
         return response()->json([
             'status' => 'success',
             'data' => $course

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+//mentor model
 use App\Mentor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -22,8 +23,9 @@ class MentorController extends Controller
     //get mentor's data
     public function show ($id)
     {
+        //find mentor id in database 
         $mentor = Mentor::find($id);
-        //jika mentor tidak ditemukan
+        //if mentor id invalid
         if (!$mentor) {
             //error response
             return response()->json([
@@ -39,10 +41,10 @@ class MentorController extends Controller
         ]);
     }
 
-    //create mentors
+    //create mentor
     public function create(Request $request)
     {
-        //skema validasi untuk setiap data yang masuk
+        //validate schema for input data
         $rules = [
             'name' => 'required|string',
             'profile' => 'required|url',
@@ -50,32 +52,35 @@ class MentorController extends Controller
             'email' => 'required|email'
         ];
         
+        //request all data from body
         $data = $request->all();
 
+        //validating mentor data
         $validator = Validator::make($data, $rules);
 
-        //memeriksa erros pada proses validasi
+        //if mentor data invalid
         if ($validator->fails()) {
+            //error response
             return response()->json([
                 'status' => false, 
                 'message' => $validator->errors()
                 ], 400);
         }
 
-        //jika tidak ada error maka data mentor akan dibuat di database
+        //creating mentor data
         $mentor = Mentor::create($data);
 
-        //respon sukses
+        //success response
         return response()->json([
             'status' => 'success',
             'data' => $mentor
         ]);
     } 
 
-    //end point guna mengupdate data mentor
+    //update mentor data
     public function update(Request $request, $id)
     {
-        //validasi
+        //validate schema for input data
         $rules = [
             'name' => 'string',
             'profile' => 'url',
@@ -83,22 +88,25 @@ class MentorController extends Controller
             'email' => 'email'
         ];
         
+        //request all data from body
         $data = $request->all();
 
+        //validating updated mentor data
         $validator = Validator::make($data, $rules);
 
-        //memeriksa error pada proses validasi
+        //if updated mentor data invalid
         if ($validator->fails()) {
+            //error response
             return response()->json([
                 'status' => false, 
                 'message' => $validator->errors()
                 ], 400);
         }
 
-        //memeriksa apakah id mentor ada di database
+        //find mentor id in database
         $mentor = Mentor::find($id);
 
-        //respon jika id mentor tidak ada di database
+        //if there's no mentor is
         if (!$mentor) {
             return response()->json([
                 'status' => 'error',
@@ -106,11 +114,11 @@ class MentorController extends Controller
             ], 404);
         }
 
-        //data akan diupdate
+        //updating data
         $mentor->fill($data);
         $mentor->save();
 
-        //respon update sukses
+        //success response
         return response()->json([
             'status' => 'success',
             'data' => $mentor
