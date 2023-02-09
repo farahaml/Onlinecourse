@@ -52,7 +52,7 @@ class CourseController extends Controller
             'mentor_id' => 'required|integer'
         ];
 
-        //request alldata from body
+        //request all data from body
         $data = $request->all();
 
         //validating data
@@ -85,8 +85,8 @@ class CourseController extends Controller
 
         //success response
         return response()->json([
-            'status' => 'succes',
-            'data' => $courses
+            'status' => 'success',
+            'data' => $course
         ]);
     }
 
