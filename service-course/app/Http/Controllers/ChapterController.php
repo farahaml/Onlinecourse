@@ -29,6 +29,24 @@ class ChapterController extends Controller
         ]);
     }
 
+    //get detail chapter
+    public function show($id) {
+        $chapter = Chapter::find($id);
+        if  (!$chapter) {
+            //error response
+            return response()->json([
+                'status' => 'error',
+                'message' => 'chapter not found'
+            ], 404);
+        }
+
+        //success response
+        return response()->json([
+            'status' => 'success',
+            'data' => $chapter
+        ]);
+    }
+
     //create chapter
     public function create (Request $request) {
         //schema for input data chapter
