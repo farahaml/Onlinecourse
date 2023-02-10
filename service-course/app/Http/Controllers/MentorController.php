@@ -20,7 +20,7 @@ class MentorController extends Controller
         ]);
     }
 
-    //get mentor's data
+    //get mentor's detail by id
     public function show ($id)
     {
         //find mentor id in database 

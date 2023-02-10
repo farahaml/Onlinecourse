@@ -12,6 +12,23 @@ use Illuminate\Support\Facades\Validator;
 
 class ChapterController extends Controller
 {
+    //get list chapter
+    public function index(Request $request) {
+        $chapters = Chapter::query();
+
+        //filter by course
+        $courseId = $request->query('course_id');
+
+        $chapters->when($courseId, function($query) use ($courseId) {
+            return $query->where('course_id', '=', $courseId);
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $chapters->get()
+        ]);
+    }
+
     //create chapter
     public function create (Request $request) {
         //schema for input data chapter
