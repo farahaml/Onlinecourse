@@ -39,7 +39,7 @@ class CourseController extends Controller
     //create course
     public function create (Request $request)
     {
-        //validate schema for input data
+        //input schema
         $rules = [
             'name' => 'required|string',
             'certificate' => 'required|boolean',
