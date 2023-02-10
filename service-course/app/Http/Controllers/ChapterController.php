@@ -152,4 +152,27 @@ class ChapterController extends Controller
             'data' => $chapter
         ]);
     }
+
+    //delete chapter by id
+    public function destroy ($id) {
+        //find chapter id
+        $chapter = Chapter::find($id);
+
+        //if chapter id not found
+        if (!$chapter) {
+            //error response 
+            return response()->json([
+                'status' => 'error',
+                'message' => 'chapter not found'
+            ], 404);
+        }
+
+    //deleting chapter
+    $chapter->delete();
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'chapter deleted'
+    ]);
+    }
 }
