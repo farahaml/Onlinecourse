@@ -171,7 +171,7 @@ class CourseController extends Controller
             ], 404);
         }
 
-        //if course id invalid = deleting course
+        //if course id valid = deleting course
         $course->delete();
 
         //success deleted course response
