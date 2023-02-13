@@ -35,6 +35,8 @@ Route::put('chapters/{id}', [App\Http\Controllers\ChapterController::class, 'upd
 Route::delete('chapters/{id}', [App\Http\Controllers\ChapterController::class, 'destroy']);
 
 //Lesson's Routes
+Route::get('lessons', [App\Http\Controllers\LessonController::class, 'index']);
+Route::get('lessons/{id}', [App\Http\Controllers\LessonController::class, 'show']);
 Route::post('lessons', [App\Http\Controllers\LessonController::class, 'create']);
 Route::put('lessons/{id}', [App\Http\Controllers\LessonController::class, 'update']);
 Route::delete('lessons/{id}', [App\Http\Controllers\LessonController::class, 'destroy']);

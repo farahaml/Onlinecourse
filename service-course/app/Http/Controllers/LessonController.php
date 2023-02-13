@@ -12,6 +12,42 @@ use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
 {
+
+    //get list lesson
+    public function index(Request $request) {
+        $lessons = Lesson::query();
+
+        //filter by chapter
+        $chapterId = $request->query('chapter_id');
+
+        $lessons->when($chapterId, function($query) use ($chapterId) {
+            return $query->where('chapter_id', '=', $chapterId);
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $lessons->get()
+        ]);
+    }
+
+        //get detail lesson
+        public function show($id) {
+            $lesson = Lesson::find($id);
+            if  (!$lesson) {
+                //error response
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'lesson not found'
+                ], 404);
+            }
+    
+            //success response
+            return response()->json([
+                'status' => 'success',
+                'data' => $lesson
+            ]);
+        }
+
     //create lesson
     public function create (Request $request) {
         //input schema
@@ -118,7 +154,7 @@ class LessonController extends Controller
     }
 
     //delete lesson by id
-    public function destroy (Request $request, $id) {
+    public function destroy ($id) {
         //find lesson id
         $lesson = Lesson::find($id);
 
