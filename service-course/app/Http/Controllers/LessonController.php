@@ -57,4 +57,63 @@ class LessonController extends Controller
             'data' => $lesson
         ]);
     }
+
+    //update lesson by id
+    public function update (Request $request, $id) {
+        $rules = [
+            'name' => 'string',
+            'video' => 'string',
+            'chapter_id' => 'integer'
+        ];
+
+        $data = $request->all();
+
+        //validating data
+        $validator = Validator::make($data, $rules);
+
+        //if data invalid 
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()
+            ], 400);
+        }
+
+        //find lesson_id in database
+        $lesson = Lesson::find($id);
+
+        //if lesson_id not found
+        if (!$lesson) {
+            //error response
+            return response()->json([
+                'status' => 'error',
+                'message' => 'lesson not found'
+            ], 404);
+        }
+
+        //if there's chapter_id update
+        $chapterId = $request->input('chapter_id');
+        if ($chapterId) {
+            //find chapter_id
+            $chapter = Mentor::find($chapterId);
+
+            //if chapter_id not found
+            if (!$chapter) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'chapter not found'
+                ], 404);
+            }
+        }
+
+        //updating data lesson
+        $lesson->fill($data);
+        $lesson->save();
+
+        //success response
+        return response()->json([
+            'status' => 'success',
+            'data' => $lesson
+        ]);
+    }
 }

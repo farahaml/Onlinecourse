@@ -52,7 +52,6 @@ class CourseController extends Controller
             'mentor_id' => 'required|integer'
         ];
 
-        //request all data from body
         $data = $request->all();
 
         //validating data
