@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Http\Controllers;
+
+//review model
+use App\Review;
+//course model 
+use App\Course;
+use Illuminate\Http\Request;
+//validator
+use Illuminate\Support\Facades\Validator;
+
+class ReviewController extends Controller
+{
+    //create review
+    public function create (Request $request) {
+        $rules = [
+            'user_id' => 'required|integer',
+            'course_id' => 'required|integer',
+            'rating' => 'required|integer|min:1|max:5',
+            'note' => 'string'
+        ];
+
+        $data = $request->all();
+
+        $validator = Validator::make($data, $rules);
+
+        if ($validator->fails()) {
+            //error response
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()
+            ], 400);
+        }
+
+        //find course id
+        $courseId = $request->input('course_id');
+        $course = Course::find($courseId);
+
+        //if course id not found
+        if (!$course) {
+            //error response 
+            return response()->json([
+                'status' => 'error',
+                'message' => 'course not found'
+            ], 404);
+        }
+
+        //find user id
+        $userId = $request->input('get_user');
+        $user = getUser($userId);
+
+        //if user id not found
+        if ($user ['status'] === 'error') {
+            return response()->json([
+                'status' => $user['status'],
+                'message' => $user['message']
+            ], $user['http_code']);
+        }
+
+        $isExistReview = Review::where('course_id', '=', $courseId)
+                        ->where('user_id', '=', $userId)
+                        ->exists();
+
+        if ($isExistReview) {
+            //error response
+            return response()->json([
+            'status' => 'error',
+            'response' => 'review already exist'
+            ], 409);
+        }
+
+        //creating review
+        $review = Review::create($data);
+
+        //success response
+        return response()->json([
+            'status' => 'success',
+            'data' => $review
+        ]);
+    }
+}

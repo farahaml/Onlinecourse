@@ -12,6 +12,25 @@ use Illuminate\Support\Facades\Validator;
 
 class MyCourseController extends Controller
 {
+    //get list my course
+    public function index (Request $request) {
+        $myCourses = MyCourse::query()->with('course');
+
+        //filter by user
+        $userId = $request->query('user_id');
+
+        $myCourses->when($userId, function($query) use ($userId) {
+            return $query->where('user_id', '=', $userId);
+        });
+
+        //success response
+        return response()->json([
+            'status' => 'success',
+            'data' => $myCourses->get()
+        ]);
+    }
+
+    //create my course
     public function create (Request $request) {
         $rules = [
             'course_id' => 'required|integer',
