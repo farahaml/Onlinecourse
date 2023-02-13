@@ -13,7 +13,7 @@ class CreateMycourses extends Migration
      */
     public function up()
     {
-        Schema::create('mycourses', function (Blueprint $table) {
+        Schema::create('my_courses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->integer('user_id');
