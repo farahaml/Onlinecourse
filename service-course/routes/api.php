@@ -40,3 +40,6 @@ Route::get('lessons/{id}', [App\Http\Controllers\LessonController::class, 'show'
 Route::post('lessons', [App\Http\Controllers\LessonController::class, 'create']);
 Route::put('lessons/{id}', [App\Http\Controllers\LessonController::class, 'update']);
 Route::delete('lessons/{id}', [App\Http\Controllers\LessonController::class, 'destroy']);
+
+//Image Course's Routes
+Route::post('imagecourses', [App\Http\Controllers\ImageCourseController::class, 'create']);
