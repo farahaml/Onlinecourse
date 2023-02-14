@@ -51,3 +51,4 @@ Route::get('my-courses', [App\Http\Controllers\MyCourseController::class, 'index
 
 //Review Routes
 Route::post('reviews', [App\Http\Controllers\ReviewController::class, 'create']);
+Route::put('reviews/{id}', [App\Http\Controllers\ReviewController::class, 'update']);
