@@ -80,30 +80,6 @@ class ReviewController extends Controller
         ]);
     }
 
-        //delete mentor data by id
-    public function destroy($id) {
-        //fin mentor id
-        $mentor = Mentor::find($id);
-
-        //jika data mentor tidak ada di database
-        if (!$mentor) {
-            //respon error
-            return response()->json([
-                'status' => 'error',
-                'message' => 'mentor not found'
-            ], 404);
-        }
-
-        //jika data mentor ada di database
-        $mentor->delete();
-
-        //respon sukses
-        return response()->json([
-            'status' => 'success',
-            'message' => 'mentor deleted'
-        ]);
-    }
-
      //update review by id
      public function update (Request $request, $id) {
         $rules = [
@@ -142,6 +118,29 @@ class ReviewController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => $review
+        ]);
+     }
+
+     //delete review by id
+     public function destroy ($id) {
+        //find review id
+        $review = Review::find($id);
+
+        //if review id not found
+        if (!$review) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'review not found'
+            ], 404);
+        }
+
+        //deleting review
+        $review->delete();
+
+        //success response
+        return response()->json([
+            'status' => 'success',
+            'message' => 'review deleted'
         ]);
      }
 }
