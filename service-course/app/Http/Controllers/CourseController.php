@@ -10,6 +10,8 @@ use App\Mentor;
 use App\Review;
 //my course model
 use App\MyCourse;
+//chapter model
+use App\Chapter;
 use Illuminate\Http\Request;
 //validator
 use Illuminate\Support\Facades\Validator;
@@ -59,15 +61,25 @@ class CourseController extends Controller
         if (count($reviews) > 0 ) {
             $userIds = array_column($reviews, 'user_id');
             $users = getUserByIds($userIds);
-            echo "<pre>";
-            print_r($users);
-            echo "</pre>";
+        if ($users['status'] === 'error') {
+            $reviews = $users;
+        } else {
+            foreach($reviews as $key => $review) {
+                $userIndex = array_search($review['user_id'], array_column($users['data'], 'id'));
+                $reviews[$key]['users'] = $users['data'][$userIndex];
+            }
+        }
         }
         //show student
         $totalStudent = MyCourse::where('course_id', '=', $id)->count();
+        //show lessons
+        $totalVideos = Chapter::where('course_id', '=', $id)->withCount('lessons')->get()->toArray();
+        //show final total videos
+        $finalTotalVideos = array_sum(array_column($totalVideos, 'lessons_count'));
 
-        //add student adn reviews data
+        //add student, videos, and reviews data
         $course['reviews'] = $reviews;
+        $course['total_videos'] = $finalTotalVideos;
         $course['total_student'] = $totalStudent;
 
         //success response
@@ -149,7 +161,7 @@ class CourseController extends Controller
         //request all data from body
         $data = $request->all();
 
-        //validadating data
+        //validating data
         $validator = Validator::make($data, $rules);
 
         //if data invalid
@@ -223,3 +235,4 @@ class CourseController extends Controller
         ]);
     }
 }
+?>
