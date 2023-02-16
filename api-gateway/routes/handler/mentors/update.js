@@ -4,17 +4,18 @@ const apiAdapter = require('../../apiAdapter');
 
 //memanggil sebuah variabel dari config
 const {
-    URL_SERVICE_MEDIA
+    URL_SERVICE_COURSE
 } = process.env;
 
-//varibael untuk memanggil adpter
-const api = apiAdapter(URL_SERVICE_MEDIA);
+//varibael untuk memanggil adapter
+const api = apiAdapter(URL_SERVICE_COURSE);
 
 module.exports = async (req, res) => {
     try {
-      const media = await api.get('/media');
+        const id = req.params.id;
+        const mentor = await api.put(`/api/mentors/${id}`, req.body);
       //reponse if success
-      return res.json(media.data);  
+        return res.json(mentor.data);  
     } catch (error) {
 
         //when service-media off
