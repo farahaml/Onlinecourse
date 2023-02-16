@@ -21,7 +21,7 @@ function getUser($userId) {
 
 //mendapatkan data user dengan id tertentu
 function getUserByIds($userIds = []) {
-    $url = env('SERVICE_USER_URL').'users/'.$userId;
+    $url = env('SERVICE_USER_URL').'users/';
 
     try {
         if (count($userIds) === 0) {
@@ -41,7 +41,7 @@ function getUserByIds($userIds = []) {
         return [
             'status' => 'error',
             'http_code' => 500,
-            'message' => 'service user unavaiable'
+            'message' => $th
         ];
     }
 }

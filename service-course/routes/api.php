@@ -25,6 +25,7 @@ Route::delete('mentors/{id}', [App\Http\Controllers\MentorController::class, 'de
 Route::post('courses', [App\Http\Controllers\CourseController::class, 'create']);
 Route::put('courses/{id}', [App\Http\Controllers\CourseController::class, 'update']);
 Route::get('courses', [App\Http\Controllers\CourseController::class, 'index']);
+Route::get('courses/{id}', [App\Http\Controllers\CourseController::class, 'show']);
 Route::delete('courses/{id}', [App\Http\Controllers\CourseController::class, 'destroy']);
 
 //Chapter's Routes

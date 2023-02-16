@@ -6,6 +6,10 @@ namespace App\Http\Controllers;
 use App\Course;
 //mentor model
 use App\Mentor;
+//review model
+use App\Review;
+//my course model
+use App\MyCourse;
 use Illuminate\Http\Request;
 //validator
 use Illuminate\Support\Facades\Validator;
@@ -34,6 +38,44 @@ class CourseController extends Controller
             'status' => 'success',
             'data' => $courses->paginate(10)
         ]);
+    }
+
+    //get detail course
+    public function show ($id) {
+        //find course id
+        $course = Course::with('mentor')->with('chapters.lessons')->with('images')->find($id);
+
+        //if course id not found
+        if (!$course) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'course not found'
+            ], 404);
+        }
+
+        //show review course
+        $reviews = Review::where('course_id', '=', $id)->get()->toArray();
+        //show data user with helpers
+        if (count($reviews) > 0 ) {
+            $userIds = array_column($reviews, 'user_id');
+            $users = getUserByIds($userIds);
+            echo "<pre>";
+            print_r($users);
+            echo "</pre>";
+        }
+        //show student
+        $totalStudent = MyCourse::where('course_id', '=', $id)->count();
+
+        //add student adn reviews data
+        $course['reviews'] = $reviews;
+        $course['total_student'] = $totalStudent;
+
+        //success response
+        return response()->json([
+            'status' => 'success',
+            'data' => $course
+        ]);
+
     }
 
     //create course
