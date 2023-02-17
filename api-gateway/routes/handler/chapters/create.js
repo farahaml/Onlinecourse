@@ -1,4 +1,4 @@
-/*upload data*/
+/*creating chapter data*/
 
 const apiAdapter = require('../../apiAdapter');
 
@@ -12,13 +12,12 @@ const api = apiAdapter(URL_SERVICE_COURSE);
 
 module.exports = async (req, res) => {
     try {
-        const id = req.params.id;
-        const course = await api.put(`/api/courses/${id}`, req.body);
+      const chapter = await api.post('/api/chapters', req.body);
       //reponse if success
-        return res.json(course.data);  
+      return res.json(chapter.data);  
     } catch (error) {
 
-        //when service-course off
+        //when service-media off
         if (error.code === 'ECONNREFUSED') {
             return res.status(500).json({ status: 'error', message: 'service unavailable' });
         }
