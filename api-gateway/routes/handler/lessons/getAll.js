@@ -1,4 +1,4 @@
-/* updating chapter data by id*/
+/* show all chapter list */
 
 const apiAdapter = require('../../apiAdapter');
 
@@ -7,26 +7,30 @@ const {
     URL_SERVICE_COURSE
 } = process.env;
 
-//calling api adapter
+//call adapter
 const api = apiAdapter(URL_SERVICE_COURSE);
 
 module.exports = async (req, res) => {
     try {
-        //req id from database
-        const id = req.params.id;
-        //req chapter data
-        const chapter = await api.put(`/api/chapters/${id}`, req.body);
 
-        //success response
-        return res.json(chapter.data);
+        //req lessons data
+        const lessons = await api.get('/api/lessons', {
+            params: {
+                ...req.query
+            }
+        });
+
+        //succes response
+        return res.json(lessons.data);
     } catch (error) {
-        // if service off
         if (error.code === 'ECONNREFUSED') {
+            //if service off
             return res.status(500).json({
                 status: 'error',
                 message: 'service unavailable'
             });
         }
+
         const { status, data } = error.response;
         //error response
         return res.status(status).json(data);

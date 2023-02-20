@@ -1,4 +1,4 @@
-/* updating chapter data by id*/
+/* updating lesson data by id*/
 
 const apiAdapter = require('../../apiAdapter');
 
@@ -14,11 +14,11 @@ module.exports = async (req, res) => {
     try {
         //req id from database
         const id = req.params.id;
-        //req chapter data
-        const chapter = await api.put(`/api/chapters/${id}`, req.body);
+        //req lesson data
+        const lesson = await api.put(`/api/lessons/${id}`, req.body);
 
         //success response
-        return res.json(chapter.data);
+        return res.json(lesson.data);
     } catch (error) {
         // if service off
         if (error.code === 'ECONNREFUSED') {
