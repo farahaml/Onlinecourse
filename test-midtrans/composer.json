@@ -1,0 +1,17 @@
+{
+    "name": "lenovo/test-midtrans",
+    "autoload": {
+        "psr-4": {
+            "Lenovo\\TestMidtrans\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "farah",
+            "email": "farah.381.amalia@gmail.com"
+        }
+    ],
+    "require": {
+        "midtrans/midtrans-php": "^2.5"
+    }
+}
